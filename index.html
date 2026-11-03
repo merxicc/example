@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BiteBox - Premium Food Manufacturing</title>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Poppins:wght@400;600&display=swap');
+
+        :root {
+            --yellow: #FFD100;
+            --blue: #5CACE2;
+            --orange: #FF6B4A;
+            --red: #D93838;
+            --pink: #F49AC1;
+            --green: #8CC63F;
+            --dark: #1A1A1A;
+            --light: #FAF6ED;
+            --white: #FFFFFF;
+            --radius: 20px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { 
+            scroll-behavior: smooth; 
+            scroll-padding-top: 80px; /* Para hindi matakpan ng nav bar ang sections */
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .logo { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .section-padding { padding: 80px 0; }
+        .section-title { font-size: 2.8rem; text-align: center; margin-bottom: 50px; }
+
+        /* =========================================
+           1. NAVIGATION BAR (CLEAR & STICKY)
+           ========================================= */
+        .navbar { 
+            background-color: var(--white); 
+            padding: 15px 0; 
+            position: fixed; 
+            top: 0; width: 100%; 
+            z-index: 9999;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-bottom: 4px solid var(--yellow);
+        }
+        .nav-content { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 2rem; color: var(--dark); text-decoration: none; letter-spacing: 1px; }
+        .logo span { color: var(--orange); }
+        
+        .nav-links { display: flex; gap: 30px; align-items: center; }
+        .nav-links a { 
+            text-decoration: none; 
+            color: var(--dark); 
+            font-weight: 600; 
+            font-size: 1rem; 
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+        .nav-links a:hover { color: var(--orange); }
+        
+        .nav-btn {
+            background-color: var(--dark);
+            color: var(--white);
+            padding: 10px 25px;
+            border-radius: 30px;
+        }
+        .nav-btn:hover { background-color: var(--orange); color: var(--white); }
+
+        /* =========================================
+           2. HERO SECTION (BIG BACKGROUND)
+           ========================================= */
+        #home {
+            height: 100vh;
+            background-image: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1600&q=80'); /* Masarap na food spread */
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-top: 70px;
+        }
+        .hero-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.8));
+        }
+        .hero-content { position: relative; z-index: 2; color: var(--white); padding: 0 20px; }
+        .hero-content h1 { font-size: 4.5rem; line-height: 1.1; margin-bottom: 20px; text-shadow: 2px 2px 10px rgba(0,0,0,0.6); }
+        .hero-content p { font-size: 1.3rem; margin-bottom: 40px; font-weight: 400; letter-spacing: 1px; }
+        .btn-main { 
+            background-color: var(--orange); color: var(--white); 
+            padding: 18px 45px; border: none; border-radius: 40px; 
+            font-weight: bold; font-size: 1.2rem; cursor: pointer; 
+            transition: 0.3s; box-shadow: 0 5px 15px rgba(255, 107, 74, 0.5);
+        }
+        .btn-main:hover { transform: translateY(-5px); background-color: #e85a3c; }
+
+        /* =========================================
+           3. PRODUCTS / FOODS (GRID EXPANDED)
+           ========================================= */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .product-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            transition: 0.3s;
+        }
+        .product-card:hover { transform: translateY(-10px); }
+        .product-card img { width: 100%; height: 250px; object-fit: cover; }
+        .product-info { padding: 25px; text-align: center; }
+        .product-info h3 { font-size: 1.8rem; color: var(--blue); margin-bottom: 10px; }
+
+        /* =========================================
+           4. ABOUT / FARM FRESH SECTION
+           ========================================= */
+        #about { background-color: var(--yellow); }
+        .nurture-content { 
+            display: flex; justify-content: center; align-items: center; 
+            gap: 50px; flex-wrap: wrap; text-align: center; 
+        }
+        .nurture-text { flex: 1; min-width: 280px; }
+        .nurture-text h3 { font-size: 2rem; color: var(--dark); margin-bottom: 15px; }
+        .nurture-center-img img { 
+            width: 350px; height: 400px; object-fit: cover; 
+            border-radius: var(--radius); border: 10px solid var(--white);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        /* =========================================
+           5. KITCHEN / MANUFACTURING PROCESS
+           ========================================= */
+        .kitchen-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+        .kitchen-img { position: relative; }
+        .kitchen-img img { width: 100%; border-radius: var(--radius); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .kitchen-text h2 { font-size: 3rem; margin-bottom: 20px; line-height: 1.2; }
+        .kitchen-text p { font-size: 1.1rem; margin-bottom: 20px; color: #555; }
+
+        /* =========================================
+           6. TESTIMONIALS (BENTO BOX COLORS)
+           ========================================= */
+        .testimonial-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .testi-card { padding: 40px 25px; border-radius: var(--radius); color: var(--dark); font-weight: 600; text-align: center; display: flex; flex-direction: column; justify-content: space-between; min-height: 250px; }
+        .testi-card p { font-size: 1.1rem; margin-bottom: 25px; line-height: 1.6; }
+        .testi-card small { font-weight: 700; font-size: 0.9rem; letter-spacing: 1px; font-family: 'Oswald', sans-serif; text-transform: uppercase; }
+        .bg-blue { background-color: var(--blue); }
+        .bg-pink { background-color: var(--pink); }
+        .bg-green { background-color: var(--green); }
+        .bg-lightblue { background-color: var(--lightblue); }
+
+        /* =========================================
+           7. CONTACTS SECTION
+           ========================================= */
+        #contacts { background-color: var(--dark); color: var(--white); }
+        #contacts .section-title { color: var(--yellow); }
+        .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .contact-card { padding: 40px; background-color: #2a2a2a; border-radius: var(--radius); text-align: center; border-bottom: 5px solid var(--orange); }
+        .contact-card h4 { color: var(--yellow); font-size: 1.5rem; margin-bottom: 15px; }
+        .contact-card p { font-size: 1.1rem; margin-bottom: 10px; color: #ccc; }
+
+        /* =========================================
+           8. MODAL / POP-UP
+           ========================================= */
+        .modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); align-items: center; justify-content: center; }
+        .modal-content { background-color: var(--white); padding: 40px; border-radius: var(--radius); width: 90%; max-width: 500px; position: relative; text-align: center; }
+        .modal-content h3 { color: var(--orange); font-size: 2.5rem; margin-bottom: 15px; }
+        .close-btn { position: absolute; top: 15px; right: 25px; color: #888; font-size: 35px; font-weight: bold; cursor: pointer; }
+        .close-btn:hover { color: var(--red); }
+        .modal-item { background-color: var(--light); padding: 20px; margin-bottom: 15px; border-radius: 10px; border-left: 5px solid var(--blue); text-align: left; }
+        .modal-item h4 { margin-bottom: 5px; color: var(--dark); }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links { display: none; } /* Pwedeng gawan ng hamburger button menu later */
+            .hero-content h1 { font-size: 3rem; }
+            .kitchen-grid { grid-template-columns: 1fr; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY NAVIGATION BAR -->
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="#home" class="logo">BITE<span>BOX</span></a>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#foods">Our Foods</a>
+                <a href="#about">About Us</a>
+                <a href="#kitchen">Kitchen</a>
+                <a href="#reviews">Reviews</a>
+                <a href="#contacts" class="nav-btn">Locations</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 1. HERO SECTION (Big Picture Background & Central Button) -->
+    <section id="home">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>Premium Food<br>Manufacturing</h1>
+            <p>High-quality wholesale meals, packed fresh for your business everyday.</p>
+            <button class="btn-main" id="howToOrderBtn">HOW TO ORDER ➔</button>
+        </div>
+    </section>
+
+    <!-- 2. PRODUCTS / FOODS SECTION -->
+    <section id="foods" class="container section-padding">
+        <h2 class="section-title">Explore Our <span style="color: var(--orange);">Products</span></h2>
+        <div class="product-grid">
+            
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&q=80" alt="Platters">
+                <div class="product-info">
+                    <h3>Gourmet Platters</h3>
+                    <p>Ready-to-eat luxury platters perfect for corporate meetings and catering events.</p>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1607623814075-e51df1bd682f?w=800&q=80" alt="Frozen Meat">
+                <div class="product-info">
+                    <h3>Frozen Marinated Meats</h3>
+                    <p>Pre-marinated, vacuum-sealed meat cuts ready for fast-food chains and restaurants.</p>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?w=800&q=80" alt="Canned Goods">
+                <div class="product-info">
+                    <h3>Processed Packaged Foods</h3>
+                    <p>Long shelf-life processed foods safely manufactured in our sterile facilities.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 3. ABOUT SECTION -->
+    <section id="about" class="section-padding">
+        <div class="container">
+            <h2 class="section-title">Nurture The Body With<br><span style="color: var(--green);">Farm-Fresh</span> Ingredients</h2>
+            
+            <div class="nurture-content">
+                <div class="nurture-text">
+                    <h3>Strict Quality Control</h3>
+                    <p>Every ingredient undergoes rigorous inspection before entering our production lines to ensure 100% safety and quality.</p>
+                </div>
+                <div class="nurture-center-img">
+                    <img src="https://images.unsplash.com/photo-1595858603417-74313d42e619?w=800&q=80" alt="Farm Fresh">
+                </div>
+                <div class="nurture-text">
+                    <h3>Local Sourcing</h3>
+                    <p>We partner with local farmers to get the freshest vegetables and meat, supporting our community while delivering excellence.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. KITCHEN / MANUFACTURING SECTION (Bagong Section) -->
+    <section id="kitchen" class="container section-padding">
+        <div class="kitchen-grid">
+            <div class="kitchen-img">
+                <img src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=800&q=80" alt="Commercial Kitchen">
+            </div>
+            <div class="kitchen-text">
+                <h2>STATE OF THE ART<br><span style="color: var(--blue);">MANUFACTURING</span></h2>
+                <p>Our industrial-grade kitchens are equipped with the latest technology for mass food production without sacrificing the authentic taste.</p>
+                <p>From automated slicing to temperature-controlled packaging, BiteBox guarantees consistency in every single batch.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. TESTIMONIALS SECTION -->
+    <section id="reviews" class="container section-padding">
+        <h2 class="section-title">Our Partners <span style="color: var(--red);">Love Us</span></h2>
+        <div class="testimonial-grid">
+            <div class="testi-card bg-blue">
+                <p>"BiteBox handles our entire restaurant chain's frozen meat supply. The consistency is just unmatched!"</p>
+                <small>KATE SMITH - Restaurant Owner</small>
+            </div>
+            <div class="testi-card bg-pink">
+                <p>"The gourmet platters are a lifesaver for our daily corporate meetings. Always fresh, always on time."</p>
+                <small>JULIA ANDERSON - HR Manager</small>
+            </div>
+            <div class="testi-card bg-green">
+                <p>"Switching to BiteBox for our raw ingredients reduced our prep time by 40%. Highly recommended!"</p>
+                <small>DAVID MORGAN - Head Chef</small>
+            </div>
+            <div class="testi-card bg-lightblue">
+                <p>"Clean, professional, and very easy to communicate with. The best food manufacturer in the region."</p>
+                <small>SARAH JENKINS - Distributor</small>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. CONTACTS / LOCATIONS SECTION -->
+    <section id="contacts" class="section-padding">
+        <div class="container">
+            <h2 class="section-title">Visit Our <span style="color: var(--white);">Branches</span></h2>
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <h4>📍 Pasig Main Plant</h4>
+                    <p><strong>Contact:</strong> Engr. Roberto Santos</p>
+                    <p><strong>Phone:</strong> (02) 8123-4567</p>
+                    <p><strong>Email:</strong> pasig@bitebox.com</p>
+                    <p>123 Industrial Ave, Pasig City</p>
+                </div>
+                <div class="contact-card">
+                    <h4>📍 Pampanga Hub</h4>
+                    <p><strong>Contact:</strong> Maria Clara Reyes</p>
+                    <p><strong>Phone:</strong> 0917-123-4567</p>
+                    <p><strong>Email:</strong> pampanga@bitebox.com</p>
+                    <p>San Fernando Logistics Center</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- POP-UP MODAL (Para sa How to Order Button) -->
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h3>How to Order</h3>
+            <p>Please contact our branch sales representatives directly to request a quotation or place bulk orders:</p>
+            
+            <div style="margin-top: 25px;">
+                <div class="modal-item">
+                    <h4>Pasig Main Plant (NCR)</h4>
+                    <p>📞 (02) 8123-4567 | ✉️ pasig.sales@bitebox.com</p>
+                </div>
+                <div class="modal-item">
+                    <h4>Pampanga Hub (North)</h4>
+                    <p>📞 0917-123-4567 | ✉️ pampanga.sales@bitebox.com</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById("contactModal");
+            const btn = document.getElementById("howToOrderBtn");
+            const closeBtn = document.querySelector(".close-btn");
+
+            // Open modal
+            btn.addEventListener('click', () => {
+                modal.style.display = "flex";
+            });
+
+            // Close modal (X button)
+            closeBtn.addEventListener('click', () => {
+                modal.style.display = "none";
+            });
+
+            // Close modal (Clicking outside)
+            window.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    modal.style.display = "none";
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
